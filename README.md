@@ -1,6 +1,7 @@
 # npm-challenge-with-docker
 
 Require the node version to be v12+
+Install the ts version of node by using the command `npm install -g ts-node`
 Install all the dependencies using the command `npm install` in the root directory
 
 Create a .env file in the root of folder and put the following variables in the .env file
