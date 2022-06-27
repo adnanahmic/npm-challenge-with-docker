@@ -5,10 +5,10 @@ Install all the dependencies using the command `npm install` in the root directo
 
 Create a .env file in the root of folder and put the following variables in the .env file
 
-CONNECTION_STRING
-port
-NODE_ENV
-JWT_SECRET
+`CONNECTION_STRING`
+`port`
+`NODE_ENV`
+`JWT_SECRET`
 
 After configuring the .env and installing all the dependencies 
 Run the command `npm run dev` and this command will execute your project
