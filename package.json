@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@jest/types": "^28.1.1",
     "@types/cookie-parser": "^1.4.3",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",

@@ -13,9 +13,10 @@
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "watch": true,
-      "moduleResolution": "node"
+      "moduleResolution": "node",
+      "types": ["node", "jest"]
     },
     "include": ["./"],
     "exclude": ["node_modules", "dist"]
-  }
+}
   
