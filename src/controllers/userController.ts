@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import bcrypt from 'bcrypt'
-import UserModal from '../Models/userModal'
-import FollowModal from '../Models/LikeUser'
+import UserModal from '../models/userModal'
+import FollowModal from '../models/LikeUser'
 import { createToken } from '../helpers/middlewares'
 import { createResponse } from '../helpers/createResponse'
 import mongoose from 'mongoose'
@@ -88,7 +88,7 @@ const LoginUser = async (
       })
     }
 
-    const newtoken = await createToken(user._id as string, username as string)
+    const newtoken = await createToken(user._id as any as string, username as any as string)
 
     user.token = newtoken
     await user.save()
@@ -172,7 +172,7 @@ const UpdatePassword = async (
     const hashedPassword: string = await bcrypt.hash(new_password, 10)
 
     const newtoken = await createToken(
-      user._id as string,
+      user._id as any as string,
       user.username as any as string
     )
     user.token = newtoken
@@ -247,7 +247,7 @@ const UnlikeUser = async (
     const user: any = await UserModal.findOne({ _id: user_id })
 
     const followRecordIds = user?.likedBy.filter(
-      (val: string) => val !== followRecord._id
+      (val: mongoose.Types.ObjectId) => val != followRecord._id
     )
 
     await FollowModal.deleteOne({ _id: followRecord._id })
