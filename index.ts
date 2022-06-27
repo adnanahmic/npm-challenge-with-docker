@@ -40,3 +40,4 @@ app.use(function (req, res, next) {
   )
   next()
 })
+export default app
