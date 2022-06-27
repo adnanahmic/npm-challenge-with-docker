@@ -20,7 +20,7 @@ let userId = ''
 
 beforeEach(async () => {
   connection = await mongoose.connect(
-    'mongodb://127.0.0.1:27017/candidiateKnowledge'
+    'mongodb://mongo:27017/TestCandidiateKnowledge'
   )
   server = app.listen(process.env.second_port)
 })
