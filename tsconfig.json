@@ -14,9 +14,10 @@
       "skipLibCheck": true /* Skip type checking of declaration files. */,
       "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
       "watch": true,
-      "moduleResolution": "node"
+      "moduleResolution": "node",
+      "types": ["node", "jest"]
     },
     "include": ["./"],
     "exclude": ["node_modules", "dist"]
-  }
+}
   
