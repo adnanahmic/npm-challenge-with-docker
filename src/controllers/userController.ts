@@ -18,13 +18,13 @@ const CreateUser = async (
     if (!username) {
       return res.status(400).json({
         success: false,
-        message: 'User Created Successfully',
+        message: 'Username is a required field',
       })
     }
     if (!password) {
       return res.status(400).json({
         success: false,
-        message: 'User Created Successfully',
+        message: 'Password is a required field',
       })
     }
 
