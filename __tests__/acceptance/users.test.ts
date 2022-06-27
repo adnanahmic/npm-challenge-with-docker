@@ -1,11 +1,14 @@
 import mongoose from 'mongoose'
-import app from '../../index'
 import { config } from 'dotenv'
-import * as request from 'supertest'
+
 config()
+
+const app = require("../../app");
+const request = require("supertest");
 
 let connection
 let server
+
 const testUser = {
   username: 'adnan ahmic',
   password: 'something',
@@ -18,11 +21,15 @@ const updatePassword = {
 
 let userId = ''
 
-beforeEach(async () => {
-  connection = await mongoose.connect(
-    'mongodb://mongo:27017/TestCandidiateKnowledge'
-  )
-  server = app.listen(process.env.second_port)
+beforeAll(async () => {
+  await mongoose.connect(process.env.TEST_CONNECTION_STRING as string).then((res) => {
+      connection = res;
+      console.log("TEST DB Connected");
+  }).catch((err) => {
+    console.log('ERROR - Unable to connect to the database: ', err)
+  })
+
+  server = app.listen(process.env.TEST_PORT)
 })
 
 it('should get most liked user', async () => {
