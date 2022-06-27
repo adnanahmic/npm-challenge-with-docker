@@ -3,7 +3,7 @@ import { config } from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import setUpDatabase from './src/helpers/db'
-import { initRoutes } from './src/Routes'
+import { initRoutes } from './src/routes'
 
 config()
 process.env.NODE_ENV === 'production' && (console.log = () => null)
