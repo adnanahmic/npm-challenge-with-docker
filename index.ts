@@ -23,8 +23,8 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 setUpDatabase()
 initRoutes(app)
 
-app.listen(process.env.port, () => {
-  console.log(`app listening at http://localhost:${process.env.port}`)
+app.listen(process.env.PORT, () => {
+  console.log(`app listening at http://localhost:${process.env.PORT}`)
 })
 
 app.use(function (req, res, next) {
@@ -33,7 +33,7 @@ app.use(function (req, res, next) {
     `Access-Control-Allow-Methods`,
     `POST, PUT, OPTIONS, DELETE, GET`
   )
-  res.header(`Access-Control-Allow-Origin`, `http://localhost:3000`)
+  res.header(`Access-Control-Allow-Origin`, `*`)
   res.header(
     `Access-Control-Allow-Headers`,
     `Origin, X-Requested-With, Content-Type, Accept`
