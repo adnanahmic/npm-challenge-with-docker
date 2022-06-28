@@ -163,6 +163,17 @@ const UpdatePassword = async (
 ) => {
   try {
     const { current_password, new_password, user_id } = req.body || {}
+    const user = await UserModal.findOne({ _id: user_id })
+
+    if (!await bcrypt.compare(current_password, user.password)) {
+      return createResponse({
+        innerStatus: false,
+        message: 'Current password do not match',
+        res,
+        status: 401,
+      })
+    }
+
     if (current_password == new_password) {
       return createResponse({
         innerStatus: false,
@@ -171,10 +182,7 @@ const UpdatePassword = async (
         status: 404,
       })
     }
-
-    const user = await UserModal.findOne({ _id: user_id })
     const hashedPassword: string = await bcrypt.hash(new_password, 10)
-
     const newtoken = await createToken(
       user._id as any as string,
       user.username as any as string
@@ -182,6 +190,13 @@ const UpdatePassword = async (
     user.token = newtoken
     user.password = hashedPassword
     await user.save()
+
+    return res.status(200).json({
+      status: 200,
+      message: "Password updated",
+      data: user
+    })
+
   } catch (err: any) {
     return createResponse({
       innerStatus: false,

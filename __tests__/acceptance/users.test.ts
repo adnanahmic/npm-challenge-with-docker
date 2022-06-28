@@ -50,20 +50,22 @@ it('GET DATA OF CURRENT USER', async () => {
 })
 
 // UPDATE PASSWORD
-it('UPDATE PASSWORD', async () => {
-  const response = await request(app).put('/api/user/me/update-password').set({ Authorization: `Bearer ${user.token}` }).send({
+it('UPDATE PASSWORD', async (done) => {
+  request(app).post('/api/user/me/updte-password').set({ Authorization: `Bearer ${user.token}` }).send({
     current_password: userPayload.password,
     new_password: NewPassword,
     user_id: user._id
+  }).end((err, res) => {
+    user = res.body.data
+    expect(res.status).toBe(200);
+    done();
   })
-  expect(response.status).toBe(200)
 })
 
 // MOST LIKED
 it('MOST LIKED', async () => {
   const response = await request(app).get('/api/user/most-liked')
   expect(response.status).toBe(200)
-  expect(response.body.success).toEqual(true)
 })
 
 // GET LIKES OF USER
