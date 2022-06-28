@@ -22,8 +22,8 @@ beforeEach(function () {
 
 // Data & Payload
 const userPayload = {
-  username: 'adnanahmic',
-  password: 'password',
+  username: Math.random().toString(36).substring(2,10+2),
+  password: 'password'
 }
 const NewPassword = 'password1';
 let user: any;
