@@ -6,7 +6,7 @@ import { config } from 'dotenv'
 config()
 
 // DB
-setUpDatabase()
+setUpDatabase(process.env.CONNECTION_STRING)
 
 // Configuring Port
 app.listen(process.env.PORT, () => {

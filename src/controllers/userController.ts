@@ -33,7 +33,7 @@ const CreateUser = async (
     if (existingUser) {
       return res.status(409).json({
         success: false,
-        message: 'User Already exists ',
+        message: 'User already exists',
       })
     }
 
@@ -51,7 +51,7 @@ const CreateUser = async (
 
     return res.status(200).json({
       success: true,
-      message: 'User Created Successfully',
+      message: 'User created successfully',
       data: user,
     })
   } catch (err: any) {
@@ -216,22 +216,19 @@ const LikeUser = async (
     const { user_id } = req.body || {}
     const { id } = req.params || {}
 
-    const userToBeFollowed = await UserModal.findOne({ _id: id as string })
-    const user = await UserModal.findOne({ _id: user_id })
+    const userToBeFollowed = await UserModal.findById(id)
+    const user = await UserModal.findById(user_id)
+
     if (!userToBeFollowed) {
       return createResponse({
         innerStatus: false,
         status: 404,
-        message: 'User TO be followed does not exists',
+        message: 'User to be followed does not exists',
         res,
       })
     }
 
-    const followRecord = await FollowModal.create({
-      liked: id as mongoose.Types.ObjectId,
-      likedBy: user_id,
-    })
-
+    const followRecord = await FollowModal.create({liked: id, likedBy: user_id})
     user.likedBy.push(followRecord?._id)
     await user.save()
 
