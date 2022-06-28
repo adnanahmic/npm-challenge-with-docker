@@ -29,7 +29,7 @@ URL's:
 
 
 
-#Why I chose MongoDB (NOSQL) over SQL Databases.
+# Why I chose MongoDB (NOSQL) over SQL Databases.
 
 - To prevent the database from becoming a system-wide bottleneck, especially in high volume environments, NoSQL databases perform in a way that relational databases cannot.
 
@@ -37,41 +37,41 @@ URL's:
 
 -MongoDB — The most popular NoSQL system, especially among startups. A document-oriented database with JSON-like documents in dynamic schemas.
 
-#Using cloud computing and storage: 
+# Using cloud computing and storage: 
 Cloud-based storage is a great solution, but it requires data to be easily spread across multiple servers for scaling. Using affordable hardware on-site for testing and then for production in the cloud is what NoSQL databases are designed for.
 
-#Rapid development: 
+# Rapid development: 
 If you are developing using modern agile methodologies, a relational database will slow you down. A NoSQL database doesn’t require the level of preparation typically needed for relational databases.
 
-#Flexibility: 
+# Flexibility: 
 You can add new columns or fields on MongoDB without affecting existing rows or application performance.
 
-#Support Integrated Caching: 
+# Support Integrated Caching: 
 NoSQL database support caching in system memory so it increases data output performance and SQL database where this has to be done using separate infrastructure.
 
-#Dynamic schema: 
+# Dynamic schema: 
 As mentioned, this gives you flexibility to change your data schema without modifying any of your existing data.
 
-#Scalability: 
+# Scalability: 
 MongoDB is horizontally scalable, which helps reduce the workload and scale your business with ease.
 
-#Manageability: 
+# Manageability: 
 The database doesn’t require a database administrator. Since it is fairly user-friendly in this way, it can be used by both developers and administrators.
 
-#Speed: 
+# Speed: 
 It is high-performing for simple queries.
 
-#Additional Points: 
+# Additional Points: 
 - Maintaining NoSQL Servers (MongoDB) is Less Expensive.
 - Lesser Server Cost and Open-Source NoSQL databases are cheap and open source.
 - MongoDB is used to save unstructured data in JSON format.
 
-#Limitations for SQL database:
+# Limitations for SQL database:
 
-#Scalability: 
+# Scalability: 
 Users have to scale relational database on powerful servers that are expensive and difficult to handle. To scale relational database, it has to be distributed on to multiple servers. Handling tables across different servers is difficult.
 
-#Complexity: 
+# Complexity: 
 In SQL server’s data has to fit into tables anyhow. If your data does not fit into tables, then you need to design your database structure that will be complex and again difficult to handle.
 
 - SQL databases are used to store structured data while NoSQL databases like MongoDB are used to save unstructured data.
