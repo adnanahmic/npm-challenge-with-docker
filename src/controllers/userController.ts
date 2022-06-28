@@ -5,6 +5,7 @@ import FollowModal from '../models/LikeUser'
 import { createToken } from '../helpers/middlewares'
 import { createResponse } from '../helpers/createResponse'
 import mongoose from 'mongoose'
+import { json } from 'stream/consumers'
 
 const CreateUser = async (
   req: Request<never, never, { username: string; password: string }, never>,
@@ -88,16 +89,19 @@ const LoginUser = async (
       })
     }
 
-    const newtoken = await createToken(user._id as any as string, username as any as string)
+    const newtoken = await createToken(
+      user._id as any as string,
+      username as any as string
+    )
 
     user.token = newtoken
     await user.save()
-    return createResponse({
-      innerStatus: true,
+
+    res.status(200).json({
       status: 200,
-      message: 'User Logged In Successfully',
-      res,
-    })
+      message: "User Logged In Successfully",
+      data: user
+    });
   } catch (err: any) {
     return createResponse({
       innerStatus: false,
