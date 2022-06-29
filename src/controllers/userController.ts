@@ -16,19 +16,13 @@ const CreateUser = async (
     let user
     const { username, password } = req.body || {}
 
-    if (!username) {
+    if (!username || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Username is a required field',
+        message: 'Username and password are required field',
       })
     }
-    if (!password) {
-      return res.status(400).json({
-        success: false,
-        message: 'Password is a required field',
-      })
-    }
-
+    
     const existingUser = await UserModal.findOne({ username })
     if (existingUser) {
       return res.status(409).json({
@@ -55,7 +49,7 @@ const CreateUser = async (
       data: user,
     })
   } catch (err: any) {
-    return res.status(404).json({
+    return res.status(500).json({
       success: false,
       message: err.message || 'Something Went Wrong',
     })
@@ -71,7 +65,7 @@ const LoginUser = async (
     const { username, password } = req.body || {}
 
     const user = await UserModal.findOne({ username })
-    if (!user || !user.password) {
+    if (!user) {
       return createResponse({
         innerStatus: false,
         status: 404,
@@ -79,11 +73,12 @@ const LoginUser = async (
         res,
       })
     }
+
     const checkPassword = await bcrypt.compare(password, user.password)
     if (!checkPassword) {
       return createResponse({
         innerStatus: false,
-        status: 404,
+        status: 401,
         message: 'Password is not correct',
         res,
       })
@@ -105,7 +100,7 @@ const LoginUser = async (
   } catch (err: any) {
     return createResponse({
       innerStatus: false,
-      status: 404,
+      status: 500,
       message: err.message || 'Cannot Login User',
       res,
     })
@@ -140,7 +135,7 @@ const GetLoginUser = async (
   } catch (err: any) {
     return createResponse({
       innerStatus: false,
-      status: 404,
+      status: 500,
       message: err.message || 'Cannot get Loged In User Information',
       res,
     })
@@ -170,18 +165,10 @@ const UpdatePassword = async (
         innerStatus: false,
         message: 'Current password do not match',
         res,
-        status: 401,
+        status: 400,
       })
     }
 
-    if (current_password == new_password) {
-      return createResponse({
-        innerStatus: false,
-        message: 'Old and New Password is same',
-        res,
-        status: 404,
-      })
-    }
     const hashedPassword: string = await bcrypt.hash(new_password, 10)
     const newtoken = await createToken(
       user._id as any as string,
@@ -200,7 +187,7 @@ const UpdatePassword = async (
   } catch (err: any) {
     return createResponse({
       innerStatus: false,
-      status: 404,
+      status: 500,
       message: err.message || 'Cannot Change Password',
       res,
     })

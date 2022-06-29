@@ -28,8 +28,13 @@ const userPayload = {
 const NewPassword = 'password1';
 let user: any;
 
-// Create User
-it('CREATE USER', (done) => {
+const mockFailUserPayload = {
+  username: "testuser",
+  password: "123445677",
+};
+
+// User Test Cases
+it('Create User', (done) => {
   request(app).post('/api/user/create').send(userPayload).end((err, res) => {
     if (err) return done(err);
 
@@ -41,11 +46,26 @@ it('CREATE USER', (done) => {
   })
 })
 
-// Login
+it('Create User | Required Fiels', (done) => {
+  request(app).post('/api/user/create').send({username: "", password: ""}).end((err, res) => {
+    if (err) return done(err);
+    expect(res.status).toBe(400);
+    done();
+  })
+})
+
+it('Create User | Existing User', (done) => {
+  request(app).post('/api/user/create').send({username: user.username, password: "password"}).end((err, res) => {
+    if (err) return done(err);
+    expect(res.status).toBe(409);
+    done();
+  })
+})
+
+// Login Test Cases
 it('Auth Login', (done) => {
   request(app).post('/api/user/login').send(userPayload).end((err, res) => {
     if (err) return done(err);
-
     user = res.body.data
     expect(res.status).toBeGreaterThanOrEqual(200);
     expect(res.status).toBeLessThan(300);
@@ -53,15 +73,37 @@ it('Auth Login', (done) => {
   })
 })
 
+it("Auth Login | User Not Found", (done) => {
+  request(app)
+    .post("/api/user/login")
+    .send(mockFailUserPayload)
+    .end((err, res) => {
+      if (err) return done(err);
+      expect(res.status).toBe(404);
+      done();
+    });
+});
+
+it("Auth Login | Invalid Credentials", (done) => {
+  request(app)
+    .post("/api/user/login")
+    .send({username: user.username, password: "wrongpassword"})
+    .end((err, res) => {
+      if (err) return done(err);
+      expect(res.status).toBe(401);
+      done();
+    });
+});
+
 // CURRENT USER
-it('GET DATA OF CURRENT USER', async () => {
+it('Current User', async () => {
   const response = await request(app).get('/api/user/me').set({ Authorization: `Bearer ${user.token}` }).send()
   expect(response.status).toBeGreaterThanOrEqual(200)
   expect(response.status).toBeLessThan(300)
 })
 
 // UPDATE PASSWORD
-it('UPDATE PASSWORD', (done) => {
+it('Update Password', (done) => {
   let data = {
     current_password: userPayload.password,
     new_password: NewPassword,
@@ -78,8 +120,23 @@ it('UPDATE PASSWORD', (done) => {
   })
 })
 
+
+it('Update Password | Current password do not match', (done) => {
+  let data = {
+    current_password: "wrongpassword",
+    new_password: NewPassword,
+    user_id: user._id
+  };
+
+  request(app).put('/api/user/me/updte-password').set({ Authorization: `Bearer ${user.token}` }).send(data).end((err, res) => {
+    if (err) return done(err);
+    expect(res.status).toBe(400);
+    done();
+  })
+})
+
 // MOST LIKED
-it('MOST LIKED', async () => {
+it('Most Liked', async () => {
   const response = await request(app).get('/api/user/most-liked')
   expect(response.status).toBe(200)
 })
@@ -91,9 +148,7 @@ it('LIKES OF USER', async () => {
 })
 
 // LIKE USER
-it('LIKE A USER', (done) => {
-  console.log(`/api/user/${user._id}/like`);
-  
+it('Like User', (done) => {
   request(app).put(`/api/user/${user._id}/like`).set({ Authorization: `Bearer ${user.token}` }).send({user_id: user._id}).end((err, res) => {
     if (err) return done(err);
     expect(res.status).toBeGreaterThanOrEqual(200);
@@ -102,8 +157,16 @@ it('LIKE A USER', (done) => {
   })
 })
 
+it('Like User | User to be followed does not exists', (done) => {
+  request(app).put(`/api/user/${"wrong-user-id"}/like`).set({ Authorization: `Bearer ${user.token}` }).send({user_id: "wrong-user-id"}).end((err, res) => {
+    if (err) return done(err);
+    expect(res.status).toBe(404);
+    done();
+  })
+})
+
 // UNLIKES USER
-it('UNLIKE A USER', (done) => {
+it('Unlike UserUSER', (done) => {
   request(app).put(`/api/user/${user._id}/unlike`).set({ Authorization: `Bearer ${user.token}` }).send({user_id: user._id}).end((err, res) => {
     if (err) return done(err);
     expect(res.status).toBeGreaterThanOrEqual(200);
