@@ -46,7 +46,7 @@ it('Create User', (done) => {
   })
 })
 
-it('Create User | Required Fiels', (done) => {
+it('Create User | Required field', (done) => {
   request(app).post('/api/user/create').send({username: "", password: ""}).end((err, res) => {
     if (err) return done(err);
     expect(res.status).toBe(400);
